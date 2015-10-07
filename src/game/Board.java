@@ -58,76 +58,124 @@ public class Board {
 	 * 
 	 */
 	public void nextTick() {
+		for(int x=0;x<rows;x++){
+			for(int y=0;y<columns;y++){
+				Cell cell=getCell(x, y);
+				cells[x][y].setState(checkRules(cell, getAliveNeighbours(cell)));
+				
+					
+				
+			}
+		}
 
 	}
 
 	/**
-	 * Auxiliary method for nextTick. It checks the neighbours and change the
-	 * state as per the rules of one cell.
+	 * Auxiliary method for nextTick. It checks the living neighbours around a
+	 * particular cell
 	 * 
-	 * It does so by getting the neighbours and evaluating the number of alive
-	 * cells and then applying the rules.
 	 * 
 	 * @see nextTick
 	 * @param cell
-	 * @return alive or dead
+	 * @return number of alive neighbours
 	 */
-	private boolean checkRules(Cell cell) {
-		int liveNeighbors = 0;
+	private int getAliveNeighbours(Cell cell) {
+		int aliveNeighbors = 0;
 		int cellRow = cell.getRow();
 		int cellColumn = cell.getColumn();
 
 		// First, we check if the cell is inside the boundaries of the external
 		// walls
 		if (cellRow == 0 || cellRow == rows - 1 || cellColumn == 0 || cellColumn == columns - 1) {
-			int startX=0;
-			int finishX=0;
-			int startY=0;
-			int finishY=0;
+			int startX = 0;
+			int finishX = 0;
+			int startY = 0;
+			int finishY = 0;
 
 			// check if the cell is in one of the four corners
 			// 1-(0,0)
 			if (cellRow == 0 && cellColumn == 0) {
-				startX=startY=0;
-				finishX=finishY=2;
+				startX = startY = 0;
+				finishX = finishY = 2;
 			}
 			// 2-(row-1,0)
-			if (cellRow == rows - 1 && cellColumn == 0) {
+			else if (cellRow == rows - 1 && cellColumn == 0) {
+				startX = cellRow - 2;
+				finishX = cellRow;
+				startY = 0;
+				finishY = 2;
 
 			}
 			// 3-(0,columns-1)
-			if (cellRow == 0 && cellColumn == columns - 1) {
+			else if (cellRow == 0 && cellColumn == columns - 1) {
+				startX = 0;
+				finishX = 2;
+				startY = cellColumn - 2;
+				finishY = cellColumn;
 
 			}
 			// 4-(rows-1,columns-1)
-			if (cellRow == rows - 1 && cellColumn == columns - 1) {
+			else if (cellRow == rows - 1 && cellColumn == columns - 1) {
+				startX = cellRow - 2;
+				finishX = cellRow;
+				startY = cellColumn - 2;
+				finishY = cellColumn;
 
 			}
-			
-			//We perform the default operation once we have the start and finish
-			for(int x=startX;x<finishX;x++){
-				for(int y=startY;y<finishY;y++){
+
+			// We perform the default operation once we have the start and
+			// finish
+			for (int x = startX; x < finishX; x++) {
+				for (int y = startY; y < finishY; y++) {
 					if (getCell(x, y).getState()) {
-						liveNeighbors++;
+						aliveNeighbors++;
 					}
 				}
 			}
-			
+
 		} else {
 			// The cell is inside the boundaries and we may perform the standard
 			// operation
 
-			for (int x = cellRow - 1; x < cellRow + 2; x++) {
-				for (int y = cellColumn - 1; y < cellColumn + 2; y++) {
+			for (int x = cellRow - 2; x < cellRow + 1; x++) {
+				for (int y = cellColumn - 2; y < cellColumn + 1; y++) {
 					if (getCell(x, y).getState()) {
-						liveNeighbors++;
+						aliveNeighbors++;
 					}
 				}
 
 			}
 		}
-		
-		
+		return aliveNeighbors;
+	}
+
+	/**
+	 * Auxiliary method for nextTick, it applies the rules and decides whether a
+	 * cell should live or not
+	 * 
+	 * @see nextTick
+	 * @param cell
+	 * @param aliveNeighbours
+	 *            Living neighbours around a particular cell
+	 * @return true if alive, false if not
+	 */
+	private boolean checkRules(Cell cell, int aliveNeighbours) {
+		if (cell.getState()) { // Cell is alive, so only rules 1,2,3 apply
+			if (aliveNeighbours < 2) { // Rule 1
+				return false;
+			}
+			if (aliveNeighbours == 2 || aliveNeighbours == 3) { // Rule 2
+				return true;
+			}
+			if (aliveNeighbours > 3) { // Rule 3
+				return false;
+			}
+		} else { //Cell is dead, so only rule 4 apply
+			if(aliveNeighbours==3){
+				return true;
+			}
+		}
+		return cell.getState();
 
 	}
 
