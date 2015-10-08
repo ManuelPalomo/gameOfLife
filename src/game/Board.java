@@ -67,7 +67,7 @@ public class Board {
 
 			}
 		}
-		cells=nextCells;
+		cells = nextCells;
 
 	}
 
@@ -81,94 +81,73 @@ public class Board {
 	 * @return number of alive neighbours
 	 */
 	private int getAliveNeighbours(Cell cell) {
-		int aliveNeighbors = 0;
+		int cellCol = cell.getColumn();
 		int cellRow = cell.getRow();
-		int cellColumn = cell.getColumn();
+		int aliveNeighbours = 0;
 
-		// First, we check if the cell is inside the boundaries of the external
-		// walls
-		if (cellRow == 0 || cellRow == rows - 1 || cellColumn == 0 || cellColumn == columns - 1) {
+		// First we check if the cell is in the external walls
+		if (cellRow == 0 || cellCol == 0 || cellRow == rows - 1 || cellCol == columns - 1) {
 			int startX = 0;
-			int finishX = 0;
 			int startY = 0;
+			int finishX = 0;
 			int finishY = 0;
 
-			// Check if the cell is in the first row or column
+			if (cellRow == 0 && cellCol == 0) { // NorthWest
+				startX = startY = cellRow - 1;
+				finishX = finishY = cellCol + 1;
 
-			// First row
-			if (cellRow == 0 && cellColumn > 0) {
-
-			}
-
-			// Last Row
-			if (cellRow == rows - 1 && cellColumn > 0) {
-
-			}
-
-			// First Column
-			if (cellRow > 0 && cellColumn == 0) {
-
-			}
-
-			// Last Column
-			if (cellRow > 0 && cellColumn == columns - 1) {
-
-			}
-			// check if the cell is in one of the four corners
-			// 1-(0,0)
-			if (cellRow == 0 && cellColumn == 0) {
-				startX = startY = 0;
-				finishX = finishY = 2;
-			}
-			// 2-(row-1,0)
-			if (cellRow == rows - 1 && cellColumn == 0) {
+			} else if (cellRow == rows - 1 && cellCol == 0) { // NorthEast
 				startX = cellRow - 2;
 				finishX = cellRow;
-				startY = 0;
-				finishY = 2;
+				startY = cellCol - 1;
+				finishY = cellCol + 1;
 
-			}
-			// 3-(0,columns-1)
-			if (cellRow == 0 && cellColumn == columns - 1) {
-				startX = 0;
-				finishX = 2;
-				startY = cellColumn - 2;
-				finishY = cellColumn;
+			} else if (cellRow == 0 && cellCol == columns - 1) {// SouthWest
+				startX = cellRow - 1;
+				finishX = cellRow + 1;
+				startY = cellCol - 2;
+				finishY = cellCol + 1;
 
-			}
-			// 4-(rows-1,columns-1)
-			if (cellRow == rows - 1 && cellColumn == columns - 1) {
-				startX = cellRow - 2;
-				finishX = cellRow;
-				startY = cellColumn - 2;
-				finishY = cellColumn;
+			} else if (cellRow == rows - 1 && cellCol == columns - 1) {
+				startX=cellRow-2;
+				finishX=cellRow+1;
+				startY=cellCol-2;
+				finishY=cellCol+1;
 
 			}
 
-			// We perform the default operation once we have the start and
-			// finish
+			// General bucle for all the cases
 			for (int x = startX; x < finishX; x++) {
-				for (int y = startY; y < finishY; y++) {
-					if (getCell(x, y).getState()) {
-						aliveNeighbors++;
+				for (int y = startY; y < startY; y++) {
+					if (x != cellRow - 1 && y != cellCol - 1) {
+						if (getCell(x, y).getState()) {
+							aliveNeighbours++;
+						}
 					}
 				}
+
 			}
 
 		} else {
-			// The cell is inside the boundaries and we may perform the standard
-			// operation
+			// If not, we perform the standard operation
 
-			for (int x = cellRow - 2; x < cellRow + 1; x++) {
-				for (int y = cellColumn - 2; y < cellColumn + 1; y++) {
-					if (getCell(x, y).getState()) {
-						aliveNeighbors++;
+			for (int x = cellRow - 2; x < cellRow; x++) {
+				for (int y = cellCol - 2; y < cellCol; y++) {
+
+					// Origin cell, do not check
+					if (x != cellRow - 1 && y != cellCol - 1) {
+						if (getCell(x, y).getState()) {
+							aliveNeighbours++;
+						}
+
 					}
+
 				}
 
 			}
 		}
-		return aliveNeighbors;
+		return aliveNeighbours;
+
 	}
 
 	/**
