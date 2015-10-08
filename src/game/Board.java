@@ -2,7 +2,7 @@ package game;
 
 /*
  * Class Board
- * This class contains all the functions that interact and create the logical board needed for the game
+ * This class contains all the functions that interact and create the logic board needed for the game
  * @author Manuel Palomo <manuel_palomo@hotmail.es>
  */
 public class Board {
@@ -58,15 +58,16 @@ public class Board {
 	 * 
 	 */
 	public void nextTick() {
-		for(int x=0;x<rows;x++){
-			for(int y=0;y<columns;y++){
-				Cell cell=getCell(x, y);
-				cells[x][y].setState(checkRules(cell, getAliveNeighbours(cell)));
-				
-					
-				
+		Cell[][] nextCells = new Cell[rows][columns];
+		for (int x = 0; x < rows; x++) {
+			for (int y = 0; y < columns; y++) {
+				Cell actualCell = getCell(x, y);
+				actualCell.setState(checkRules(actualCell, getAliveNeighbours(actualCell)));
+				nextCells[x][y] = actualCell;
+
 			}
 		}
+		cells=nextCells;
 
 	}
 
@@ -92,6 +93,27 @@ public class Board {
 			int startY = 0;
 			int finishY = 0;
 
+			// Check if the cell is in the first row or column
+
+			// First row
+			if (cellRow == 0 && cellColumn > 0) {
+
+			}
+
+			// Last Row
+			if (cellRow == rows - 1 && cellColumn > 0) {
+
+			}
+
+			// First Column
+			if (cellRow > 0 && cellColumn == 0) {
+
+			}
+
+			// Last Column
+			if (cellRow > 0 && cellColumn == columns - 1) {
+
+			}
 			// check if the cell is in one of the four corners
 			// 1-(0,0)
 			if (cellRow == 0 && cellColumn == 0) {
@@ -99,7 +121,7 @@ public class Board {
 				finishX = finishY = 2;
 			}
 			// 2-(row-1,0)
-			else if (cellRow == rows - 1 && cellColumn == 0) {
+			if (cellRow == rows - 1 && cellColumn == 0) {
 				startX = cellRow - 2;
 				finishX = cellRow;
 				startY = 0;
@@ -107,7 +129,7 @@ public class Board {
 
 			}
 			// 3-(0,columns-1)
-			else if (cellRow == 0 && cellColumn == columns - 1) {
+			if (cellRow == 0 && cellColumn == columns - 1) {
 				startX = 0;
 				finishX = 2;
 				startY = cellColumn - 2;
@@ -115,7 +137,7 @@ public class Board {
 
 			}
 			// 4-(rows-1,columns-1)
-			else if (cellRow == rows - 1 && cellColumn == columns - 1) {
+			if (cellRow == rows - 1 && cellColumn == columns - 1) {
 				startX = cellRow - 2;
 				finishX = cellRow;
 				startY = cellColumn - 2;
@@ -170,8 +192,8 @@ public class Board {
 			if (aliveNeighbours > 3) { // Rule 3
 				return false;
 			}
-		} else { //Cell is dead, so only rule 4 apply
-			if(aliveNeighbours==3){
+		} else { // Cell is dead, so only rule 4 apply
+			if (aliveNeighbours == 3) {
 				return true;
 			}
 		}
