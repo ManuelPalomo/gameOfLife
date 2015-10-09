@@ -7,6 +7,7 @@ package listeners;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import game.Main;
 import graphics.CanvasPanel;
 
 public class ScreenListener extends MouseAdapter {
@@ -25,16 +26,16 @@ public class ScreenListener extends MouseAdapter {
 	 *         position of the cell in the screen
 	 */
 	public void mouseReleased(MouseEvent e) {
-		try{
-		int row = e.getX() / (panel.getHeight() / panel.getHeightInCells());
-		int col = e.getY() / (panel.getWidth()/panel.getLengthInCells());
-		panel.setValue(row, col,!panel.getValue(row, col));
-		panel.repaint();
-		System.out.println(row+" "+col);
-		}catch(IndexOutOfBoundsException banana){
-			
+		try {
+			int row = e.getX() / (panel.getHeight() / panel.getHeightInCells());
+			int col = e.getY() / (panel.getWidth() / panel.getLengthInCells());
+			panel.setValue(row, col, !panel.getValue(row, col));
+			Main.board.setValue(row, col, panel.getValue(row, col));
+			panel.repaint();
+			System.out.println(row + " " + col);
+		} catch (IndexOutOfBoundsException banana) {
+
 		}
-		
 
 	}
 

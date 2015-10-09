@@ -15,6 +15,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import listeners.ScreenListener;
+import listeners.StartListener;
 
 public class Screen {
 	private int height;
@@ -24,6 +25,7 @@ public class Screen {
 	private ScreenListener listener;
 	private JButton start, pause, step;
 	private JPanel container;
+	private StartListener buttonListener;
 
 	public Screen(int height, int length) {
 		this.height = height;
@@ -34,11 +36,15 @@ public class Screen {
 		start=new JButton("Start");
 		pause=new JButton("Pause");
 		step=new JButton("Stop");
-
+		listener = new ScreenListener(panel);
+		buttonListener = new StartListener(panel);
+		
+		start.addActionListener(buttonListener);
+		
 		frame.setLayout(new BorderLayout());
 		frame.add(container);
 
-		listener = new ScreenListener(panel);
+		
 		panel.addMouseListener(listener);
 
 		GroupLayout layout = new GroupLayout(container);

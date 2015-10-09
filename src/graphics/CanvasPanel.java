@@ -12,6 +12,8 @@ import java.awt.Graphics;
 
 import javax.swing.JPanel;
 
+import game.Cell;
+
 public class CanvasPanel extends JPanel {
 	private int height;
 	private int length;
@@ -47,6 +49,14 @@ public class CanvasPanel extends JPanel {
 
 	public boolean getValue(int x, int y) {
 		return cells[x][y];
+	}
+	public void setCells(Cell[][] cellMatrix){
+		for(int x=0;x<height;x++){
+			for(int y=0;y<length;y++){
+				cells[x][y]=cellMatrix[x][y].getState();
+			}
+		}
+		
 	}
 
 	/**
