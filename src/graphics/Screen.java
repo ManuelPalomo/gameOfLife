@@ -8,8 +8,11 @@ package graphics;
  */
 
 import java.awt.BorderLayout;
-
+import java.awt.Dimension;
+import javax.swing.GroupLayout;
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 import listeners.ScreenListener;
 
@@ -19,18 +22,49 @@ public class Screen {
 	private JFrame frame;
 	private CanvasPanel panel;
 	private ScreenListener listener;
+	private JButton start, pause, step;
+	private JPanel container;
 
 	public Screen(int height, int length) {
 		this.height = height;
 		this.length = length;
 		frame = new JFrame("Conway's Game of Life");
-		frame.setSize(600, 600);// Initialize the window to a fixed width/height
-		frame.setLayout(new BorderLayout());
-
+		container = new JPanel();
 		panel = new CanvasPanel(height, length);
+		start=new JButton("Start");
+		pause=new JButton("Pause");
+		step=new JButton("Stop");
+
+		frame.setLayout(new BorderLayout());
+		frame.add(container);
+
+		listener = new ScreenListener(panel);
 		panel.addMouseListener(listener);
 
-		frame.add(panel, BorderLayout.CENTER);
+		GroupLayout layout = new GroupLayout(container);
+		container.setLayout(layout);
+		layout.setHorizontalGroup(layout.createParallelGroup()
+				.addComponent(panel)
+				.addGroup(layout.createSequentialGroup()
+						.addComponent(start)
+						.addComponent(pause)
+						.addComponent(step)					
+						));
+		
+		layout.setVerticalGroup(layout.createSequentialGroup()
+				.addComponent(panel)
+				.addGroup(layout.createParallelGroup()
+						.addComponent(start)
+						.addComponent(pause)
+						.addComponent(step)	
+						));
+
+		frame.setSize(600, 600);// Initialize the window to a fixed width/height
+		panel.setMinimumSize(new Dimension(600, 600));
+		panel.setMaximumSize(new Dimension(600, 600));
+		frame.setResizable(false);
+		
+		frame.pack();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 	}
