@@ -109,16 +109,16 @@ public class Board {
 				finishY = cellCol + 1;
 
 			} else if (cellRow == rows - 1 && cellCol == columns - 1) {
-				startX=cellRow-2;
-				finishX=cellRow+1;
-				startY=cellCol-2;
-				finishY=cellCol+1;
+				startX = cellRow - 2;
+				finishX = cellRow + 1;
+				startY = cellCol - 2;
+				finishY = cellCol + 1;
 
-			}
+			}//We need to do the checks for the 4 borders
 
 			// General bucle for all the cases
 			for (int x = startX; x < finishX; x++) {
-				for (int y = startY; y < startY; y++) {
+				for (int y = startY; y < finishY; y++) {
 					if (x != cellRow - 1 && y != cellCol - 1) {
 						if (getCell(x, y).getState()) {
 							aliveNeighbours++;
