@@ -17,7 +17,7 @@ public class StartListener implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		Timer timer = new Timer(3000, new ActionListener() {
+		Timer timer = new Timer(20, new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -28,7 +28,7 @@ public class StartListener implements ActionListener {
 
 			}
 		});
-		timer.setInitialDelay(1000);
+		timer.setInitialDelay(0);
 		timer.start();
 
 	}

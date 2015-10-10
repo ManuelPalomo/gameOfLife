@@ -70,7 +70,7 @@ public class Board {
 		for (int x = 0; x < rows; x++) {
 			for (int y = 0; y < columns; y++) {
 				Cell actualCell = getCell(x, y);
-				actualCell.setState(checkRules(actualCell, getAliveNeighbours(actualCell)));
+				checkRules(actualCell, getAliveNeighbours(actualCell));
 				nextCells[x][y] = actualCell;
 
 			}
@@ -91,94 +91,22 @@ public class Board {
 		int cellCol = cell.getColumn();
 		int cellRow = cell.getRow();
 		int aliveNeighbours = 0;
-		//
-		// // First we check if the cell is in the external walls
-		// if (cellRow == 0 || cellCol == 0 || cellRow == rows - 1 || cellCol ==
-		// columns - 1) {
-		// int startX = 0;
-		// int startY = 0;
-		// int finishX = 0;
-		// int finishY = 0;
-		//
-		// if (cellRow == 0 && cellCol == 0) { // NorthWest
-		// startX = startY = cellRow - 1;
-		// finishX = finishY = cellCol + 1;
-		//
-		// } else if (cellRow == rows - 1 && cellCol == 0) { // NorthEast
-		// startX = cellRow - 2;
-		// finishX = cellRow;
-		// startY = cellCol - 1;
-		// finishY = cellCol + 1;
-		//
-		// } else if (cellRow == 0 && cellCol == columns - 1) { // SouthWest
-		// startX = cellRow - 1;
-		// finishX = cellRow + 1;
-		// startY = cellCol - 2;
-		// finishY = cellCol + 1;
-		//
-		// } else if (cellRow == rows - 1 && cellCol == columns - 1) {
-		// //SouthEast
-		// startX = cellRow - 2;
-		// finishX = cellRow + 1;
-		// startY = cellCol - 2;
-		// finishY = cellCol + 1;
-		//
-		// } else if(cellRow==0 && cellCol>0){ //North
-		// startX = cellRow - 2;
-		// finishX = cellRow + 1;
-		// startY = cellCol - 1;
-		// finishY = cellCol;
-		// }
-		//
-		// // General bucle for all the cases
-		// for (int x = startX; x < finishX; x++) {
-		// for (int y = startY; y < finishY; y++) {
-		// if (x != cellRow - 1 && y != cellCol - 1) {
-		// if (getCell(x, y).getState()) {
-		// aliveNeighbours++;
-		// }
-		// }
-		// }
-		//
-		// }
-		//
-		// } else {
-		// // If not, we perform the standard operation
-		//
-		// for (int x = cellRow - 2; x < cellRow; x++) {
-		// for (int y = cellCol - 2; y < cellCol; y++) {
-		//
-		// // Origin cell, do not check
-		// if (x != cellRow - 1 && y != cellCol - 1) {
-		// if (getCell(x, y).getState()) {
-		// aliveNeighbours++;
-		// }
-		//
-		// }
-		//
-		// }
-		//
-		// }
-		// }
-		// return aliveNeighbours;
 
-		for (int x = cellRow - 2; x <= cellRow; x++) {
-			for (int y = cellCol - 2; y <= cellCol; y++) {
-
-				// Origin cell, do not check
-				if (x != cellRow - 1 && y != cellCol - 1) {
-					try {
+		for (int x = cellRow - 1; x < cellRow + 2; x++) {
+			for (int y = cellCol - 1; y < cellCol + 2; y++) {
+				if (x >= 0 && x < rows && y >= 0 && y < columns) {
+					// Origin cell, do not check
+					if (x != cellRow || y != cellCol) {
 						if (getCell(x, y).getState()) {
 							aliveNeighbours++;
-						}
-					} catch (IndexOutOfBoundsException e) {}
 
+						}
+					}
 				}
 
 			}
 
 		}
-
 		return aliveNeighbours;
 	}
 
@@ -194,21 +122,18 @@ public class Board {
 	 */
 	private boolean checkRules(Cell cell, int aliveNeighbours) {
 		if (cell.getState()) { // Cell is alive, so only rules 1,2,3 apply
-			if (aliveNeighbours < 2) { // Rule 1
-				System.out.println("Cambiando");
+			if (aliveNeighbours < 2 || aliveNeighbours > 3) { // Rule 1
+				cell.setState(false);
 				return false;
 			}
+			
 			if (aliveNeighbours == 2 || aliveNeighbours == 3) { // Rule 2
-				System.out.println("Cambiando");
+				cell.setState(true);
 				return true;
-			}
-			if (aliveNeighbours > 3) { // Rule 3
-				System.out.println("Cambiando");
-				return false;
 			}
 		} else { // Cell is dead, so only rule 4 apply
 			if (aliveNeighbours == 3) {
-				System.out.println("Cambiando");
+				cell.setState(true);
 				return true;
 			}
 		}
