@@ -19,13 +19,11 @@ public class CanvasPanel extends JPanel {
 	private int length;
 	private boolean[][] cells;
 	private boolean drawGrid = true;
-	
 
 	public CanvasPanel(int height, int length) {
 		this.height = height;
 		this.length = length;
 		cells = new boolean[height][length];
-		
 
 		// Initialize all cells to false
 		for (int x = 0; x < height; x++) {
@@ -50,13 +48,14 @@ public class CanvasPanel extends JPanel {
 	public boolean getValue(int x, int y) {
 		return cells[x][y];
 	}
-	public void setCells(Cell[][] cellMatrix){
-		for(int x=0;x<height;x++){
-			for(int y=0;y<length;y++){
-				cells[x][y]=cellMatrix[x][y].getState();
+
+	public void setCells(Cell[][] cellMatrix) {
+		for (int x = 0; x < cellMatrix.length; x++) {
+			for (int y = 0; y < cellMatrix[x].length; y++) {
+				cells[x][y] = cellMatrix[x][y].getState();
 			}
 		}
-		
+
 	}
 
 	/**
@@ -67,7 +66,6 @@ public class CanvasPanel extends JPanel {
 		super.paintComponent(g);
 		drawGrid(g);
 		drawCells(g);
-	
 
 	}
 
@@ -97,17 +95,17 @@ public class CanvasPanel extends JPanel {
 	 */
 	public void drawCells(Graphics g) {
 		int cellSize = this.getWidth() / length;
-		
+
 		for (int x = 0; x < height; x++) {
 			for (int y = 0; y < length; y++) {
 				g.drawRect(x * cellSize, y * cellSize, cellSize, cellSize);
 				if (cells[x][y] == true) { // live
 					g.setColor(Color.BLACK);
-					g.fillRect(x * cellSize, y * cellSize, cellSize-1, cellSize-1);
+					g.fillRect(x * cellSize, y * cellSize, cellSize - 1, cellSize - 1);
 
 				} else {
 					g.setColor(Color.WHITE);
-					g.fillRect(x * cellSize, y * cellSize, cellSize-1, cellSize-1);
+					g.fillRect(x * cellSize, y * cellSize, cellSize - 1, cellSize - 1);
 				}
 
 			}

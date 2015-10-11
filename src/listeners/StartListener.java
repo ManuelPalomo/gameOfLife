@@ -17,7 +17,7 @@ public class StartListener implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		Timer timer = new Timer(20, new ActionListener() {
+		Timer timer = new Timer(100, new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
