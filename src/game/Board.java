@@ -1,5 +1,7 @@
 package game;
 
+import java.util.Random;
+
 /*
  * Class Board
  * This class contains all the functions that interact and create the logic board needed for the game
@@ -121,6 +123,33 @@ public class Board {
 			}
 		}
 
+	}
+
+	/**
+	 * Fills the board with random cells using a seed
+	 */
+	public void randomize(Long seed) {
+		Random random = new Random();
+		random.setSeed(seed);
+		for (int x = 0; x < rows; x++) {
+			for (int y = 0; y < columns; y++) {
+				if (random.nextDouble() > 0.5D) {
+					cells[x][y].setState(true);
+				}
+
+			}
+		}
+	}
+
+	/**
+	 * Sets all the cells to false
+	 */
+	public void clear() {
+		for (int x = 0; x < rows; x++) {
+			for (int y = 0; y < columns; y++) {
+				cells[x][y].setState(false);
+			}
+		}
 	}
 
 }

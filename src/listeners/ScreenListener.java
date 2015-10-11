@@ -32,7 +32,6 @@ public class ScreenListener extends MouseAdapter {
 			panel.setValue(row, col, !panel.getValue(row, col));
 			Main.board.setValue(row, col, panel.getValue(row, col));
 			panel.repaint();
-			System.out.println(row + " " + col);
 		} catch (IndexOutOfBoundsException banana) {
 
 		}

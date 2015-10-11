@@ -13,9 +13,10 @@ import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import listeners.ScreenListener;
-import listeners.StartListener;
+import listeners.ButtonListener;
 
 public class Screen {
 	private int height;
@@ -23,9 +24,10 @@ public class Screen {
 	private JFrame frame;
 	private CanvasPanel panel;
 	private ScreenListener listener;
-	private JButton start, pause, step;
+	private JButton start, pause, step,random,clear;
+	private JTextField seed;
 	private JPanel container;
-	private StartListener buttonListener;
+	private ButtonListener buttonListener;
 
 	public Screen(int height, int length) {
 		this.height = height;
@@ -35,11 +37,27 @@ public class Screen {
 		panel = new CanvasPanel(height, length);
 		start=new JButton("Start");
 		pause=new JButton("Pause");
-		step=new JButton("Stop");
+		step=new JButton("Step");
+		random = new JButton("Random");
+		clear= new JButton("Clear");
+		seed = new JTextField("0");
+	
+		
+		
+		start.setActionCommand("Start");
+		pause.setActionCommand("Pause");
+		step.setActionCommand("Step");
+		random.setActionCommand("Random");
+		clear.setActionCommand("Clear");
+		
 		listener = new ScreenListener(panel);
-		buttonListener = new StartListener(panel);
+		buttonListener = new ButtonListener(panel);
 		
 		start.addActionListener(buttonListener);
+		pause.addActionListener(buttonListener);
+		step.addActionListener(buttonListener);
+		random.addActionListener(buttonListener);
+		clear.addActionListener(buttonListener);
 		
 		frame.setLayout(new BorderLayout());
 		frame.add(container);
@@ -54,7 +72,10 @@ public class Screen {
 				.addGroup(layout.createSequentialGroup()
 						.addComponent(start)
 						.addComponent(pause)
-						.addComponent(step)					
+						.addComponent(step)
+						.addComponent(clear)
+						.addComponent(random)
+						.addComponent(seed)
 						));
 		
 		layout.setVerticalGroup(layout.createSequentialGroup()
@@ -62,7 +83,11 @@ public class Screen {
 				.addGroup(layout.createParallelGroup()
 						.addComponent(start)
 						.addComponent(pause)
-						.addComponent(step)	
+						.addComponent(step)
+						.addComponent(clear)
+						.addComponent(random)
+						.addComponent(seed)
+						
 						));
 
 		frame.setSize(600, 600);// Initialize the window to a fixed width/height
