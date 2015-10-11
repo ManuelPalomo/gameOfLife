@@ -70,6 +70,7 @@ public class ButtonListener implements ActionListener {
 			Main.board.clear();
 			panel.setCells(Main.board.getCellMatrix());
 			panel.repaint();
+			timer.stop();
 			break;
 		}
 
