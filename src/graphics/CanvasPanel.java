@@ -13,8 +13,10 @@ import java.awt.Graphics;
 import javax.swing.JPanel;
 
 import game.Cell;
+import utils.Cons;
 
 public class CanvasPanel extends JPanel {
+	private static final long serialVersionUID = 9016179777044522508L;
 	private int height;
 	private int length;
 	private boolean[][] cells;
@@ -28,7 +30,7 @@ public class CanvasPanel extends JPanel {
 		// Initialize all cells to false
 		for (int x = 0; x < height; x++) {
 			for (int y = 0; y < length; y++) {
-				cells[x][y] = false;
+				cells[x][y] = Cons.DEAD;
 			}
 		}
 	}
@@ -99,7 +101,7 @@ public class CanvasPanel extends JPanel {
 		for (int x = 0; x < height; x++) {
 			for (int y = 0; y < length; y++) {
 				g.drawRect(x * cellSize, y * cellSize, cellSize, cellSize);
-				if (cells[x][y] == true) { // live
+				if (cells[x][y] == Cons.ALIVE) { // live
 					g.setColor(Color.BLACK);
 					g.fillRect(x * cellSize, y * cellSize, cellSize - 1, cellSize - 1);
 

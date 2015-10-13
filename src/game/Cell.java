@@ -1,4 +1,7 @@
 package game;
+
+import utils.Cons;
+
 /*
  * Class Cell
  * 
@@ -12,7 +15,7 @@ public class Cell {
 	public Cell(int row, int column) {
 		this.row = row;
 		this.column = column;
-		state = false;
+		state = Cons.DEAD;
 	}
 
 	public int getRow() {

@@ -11,12 +11,13 @@ import java.util.Random;
 import javax.swing.JTextField;
 import javax.swing.Timer;
 
-import game.Main;
+import game.Board;
 import graphics.CanvasPanel;
 
 public class ButtonListener implements ActionListener {
 	private CanvasPanel panel;
 	Timer timer;
+	Board board = Board.getInstance();
 
 	public ButtonListener(CanvasPanel panel) {
 		this.panel = panel;
@@ -30,8 +31,8 @@ public class ButtonListener implements ActionListener {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					Main.board.nextTick();
-					panel.setCells(Main.board.getCellMatrix());
+					board.nextTick();
+					panel.setCells(board.getCellMatrix());
 					panel.repaint();
 
 				}
@@ -42,8 +43,8 @@ public class ButtonListener implements ActionListener {
 
 		case "Step":
 			timer.stop();
-			Main.board.nextTick();
-			panel.setCells(Main.board.getCellMatrix());
+			board.nextTick();
+			panel.setCells(board.getCellMatrix());
 			panel.repaint();
 			break;
 
@@ -57,8 +58,8 @@ public class ButtonListener implements ActionListener {
 			} else {
 				seed = Long.parseLong(seedPanel.getText());
 			}
-			Main.board.randomize(seed);
-			panel.setCells(Main.board.getCellMatrix());
+			board.randomizeBoard(seed);
+			panel.setCells(board.getCellMatrix());
 			panel.repaint();
 			break;
 
@@ -67,8 +68,8 @@ public class ButtonListener implements ActionListener {
 			break;
 
 		case "Clear":
-			Main.board.clear();
-			panel.setCells(Main.board.getCellMatrix());
+			board.clearBoard();
+			panel.setCells(board.getCellMatrix());
 			panel.repaint();
 			timer.stop();
 			break;

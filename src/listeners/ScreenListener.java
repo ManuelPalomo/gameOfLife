@@ -7,13 +7,14 @@ package listeners;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import game.Board;
 import game.Main;
 import graphics.CanvasPanel;
 
 public class ScreenListener extends MouseAdapter {
 	private CanvasPanel panel; // Needed to obtain the height/width of the panel
 								// as it can change during execution
-
+	Board board = Board.getInstance();
 	public ScreenListener(CanvasPanel panel) {
 		this.panel = panel;
 	}
@@ -30,7 +31,7 @@ public class ScreenListener extends MouseAdapter {
 			int row = e.getX() / (panel.getHeight() / panel.getHeightInCells());
 			int col = e.getY() / (panel.getWidth() / panel.getLengthInCells());
 			panel.setValue(row, col, !panel.getValue(row, col));
-			Main.board.setValue(row, col, panel.getValue(row, col));
+			board.setValue(row, col, panel.getValue(row, col));
 			panel.repaint();
 		} catch (IndexOutOfBoundsException banana) {
 
