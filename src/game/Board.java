@@ -15,6 +15,7 @@ public class Board {
 	private Cell[][] cells;
 	private int rows;
 	private int columns;
+	private int generation=0;
 
 	private Board() {
 
@@ -61,6 +62,10 @@ public class Board {
 	public Cell getCell(int row, int column) {
 		return cells[row][column];
 	}
+	
+	public int getGeneration(){
+		return generation;
+	}
 
 	public void setValue(int row, int column, boolean value) {
 		cells[row][column].setState(value);
@@ -92,6 +97,7 @@ public class Board {
 
 			}
 		}
+		generation++;
 		cells = nextCells;
 	}
 

@@ -56,6 +56,7 @@ public class Screen {
 
 		frame.setLayout(new BorderLayout());
 		frame.add(container);
+		
 
 		panel.addMouseListener(listener);
 
@@ -80,5 +81,6 @@ public class Screen {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 	}
+	
 
 }

@@ -8,7 +8,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Random;
 
+import javax.swing.JFrame;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
 import game.Board;
@@ -18,9 +20,10 @@ public class ButtonListener implements ActionListener {
 	private CanvasPanel panel;
 	Timer timer;
 	Board board = Board.getInstance();
-
+	JFrame frame; //Used to change the title to display the current generation
 	public ButtonListener(CanvasPanel panel) {
 		this.panel = panel;
+		
 	}
 
 	@Override
@@ -33,6 +36,8 @@ public class ButtonListener implements ActionListener {
 				public void actionPerformed(ActionEvent e) {
 					board.nextTick();
 					panel.setCells(board.getCellMatrix());
+					frame=(JFrame)SwingUtilities.getWindowAncestor(panel);
+					frame.setTitle("Game of life. Generation: "+board.getGeneration());
 					panel.repaint();
 
 				}
@@ -44,6 +49,7 @@ public class ButtonListener implements ActionListener {
 		case "Step":
 			timer.stop();
 			board.nextTick();
+			frame.setTitle("Game of life. Generation: "+board.getGeneration());
 			panel.setCells(board.getCellMatrix());
 			panel.repaint();
 			break;
